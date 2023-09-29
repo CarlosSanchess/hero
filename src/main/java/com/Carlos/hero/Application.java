@@ -7,6 +7,7 @@ public class Application {
         Game game = new Game();
         try{
             game.run();
+
         }catch (IOException e)
         {
             e.printStackTrace();

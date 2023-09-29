@@ -1,24 +1,27 @@
 package com.Carlos.hero;
 
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.input.KeyStroke;
 
-import javax.swing.*;
+
 import java.io.IOException;
-import java.security.Key;
+
 
 public class Game {
 
     private Screen screen;
     private int x = 10;
     private int y = 10;
-    Game(){
-        try{
+
+    Hero hero = new Hero(x,y);
+
+    Game() {
+        try {
             Terminal terminal = new
                     DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
@@ -26,24 +29,13 @@ public class Game {
             screen.startScreen(); // screens must be started
             screen.doResizeIfNecessary(); // resize screen if necessary
 
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    private void draw() throws IOException{
-
-        try{
-                screen.clear();
-                screen.setCharacter(x, y, TextCharacter.fromCharacter('H')
-                        [0]);
-                screen.refresh();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void run() throws IOException{
         while(true) {
-            draw();
+            hero.draw(screen);
             KeyStroke key = screen.readInput();
             if (key.getKeyType() == KeyType.EOF)
             {
@@ -56,16 +48,16 @@ public class Game {
     private void processKey(KeyStroke key){
         switch (key.getKeyType()) {
             case ArrowLeft -> {
-                x--;
+                moveHero(hero.moveLeft());
             }
             case ArrowRight -> {
-                x++;
+                moveHero(hero.moveRight());
             }
             case ArrowUp -> {
-                y--;
+                moveHero(hero.moveUp());
             }
             case ArrowDown -> {
-                y++;
+                moveHero(hero.moveDown());
             }
         }
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')
@@ -77,5 +69,8 @@ public class Game {
             }
 
         }
+    }
+  public void moveHero(Position p){
+            hero.setPosition(p);
     }
 }
