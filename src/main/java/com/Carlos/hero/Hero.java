@@ -6,16 +6,13 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.SGR; //These SGR codes are used to set colors, styles (bold, underline, etc.), and other text attributes.
 
 
-public class Hero {
-
-    private int tempx;
-    private int tempy;
+public class Hero extends Element{
 
     Hero(int x, int y){
-        this.tempx = x;
-        this.tempy = y;
+        super(x, y); //Super reffers to the super class constructor ( ELement)
     }
-    Position position = new Position(tempx, tempy);
+
+
     public Position moveUp(){
         return new Position(position.getX(),position.getY() - 1); // Movimento para cima
     }
@@ -34,7 +31,7 @@ public class Hero {
         position.setY(p.getY());
     }
 
-    public void drawHero(TextGraphics graphics) { // Desenhar o Hero
+    public void draw(TextGraphics graphics) { // Desenhar o Hero
             graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
             graphics.enableModifiers(SGR.BOLD);
             graphics.putString(new TerminalPosition(position.getX(), position.getY()), "H");

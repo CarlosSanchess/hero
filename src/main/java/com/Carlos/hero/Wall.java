@@ -8,25 +8,18 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wall {
+public class Wall extends Element {
 
-    private int x;
-    private int y;
-
-    public int get_x(){
-        return x;
-    }
-    public int get_y(){
-        return y;
+    Position getPosition(){
+        return position;
     }
     Wall(int x, int y){
-        this.x = x;
-        this.y = y;
+        super(x,y);
     }
-    void drawWalls(TextGraphics graphics, Wall w){
+    void draw(TextGraphics graphics){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(w.x, w.y),"+");
+        graphics.putString(new TerminalPosition(position.getX(), position.getY()),"+");
     }
 
 }
