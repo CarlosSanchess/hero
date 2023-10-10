@@ -24,7 +24,6 @@ public class Game {
 
     Hero hero = new Hero(x,y);
     Arena arena = new Arena(30,15);
-    Coin coin = new Coin(0,0);
 
 
     Game() {
@@ -43,7 +42,6 @@ public class Game {
     public void run() throws IOException{
         graphics = screen.newTextGraphics(); // Por aqui a atribuição do Text grpahics, para evitar que a screen seja NULL
         while(true) {
-            coin.draw(graphics);
             drawGame(graphics); //Escreve tudo no terminal relacionado com GUI
             KeyStroke key = screen.readInput(); //Recebe o input do user, da tecla clicada
             if (key.getKeyType() == KeyType.EOF) //Caso fechemos o terminal
@@ -79,11 +77,27 @@ public class Game {
 
         }
     }
-  private void moveHero(Position p){
+    private void moveHero(Position p){
         if(arena.canHeroMove(p)) {
+            arena.retrieveCoins(p);
             hero.setPosition(p);
+           List <Position> pMonstros = arena.moveMonstersP();
+            verifyMonsterCollisions(pMonstros, p);
         }
     }
+
+    void verifyMonsterCollisions(List<Position> pMonstros,Position p){
+        for(Position pos : pMonstros){
+            if(p.equals(pos)){
+                try {
+                    screen.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void drawGame(TextGraphics graphics){
 
         try{

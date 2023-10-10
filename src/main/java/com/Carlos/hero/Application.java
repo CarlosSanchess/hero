@@ -1,4 +1,5 @@
 package com.Carlos.hero;
+//TODO FIX NO FIM DO JOGO MUITO DIFICIL DE ACABAR
 
 import java.io.IOException;
 
